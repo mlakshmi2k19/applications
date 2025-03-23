@@ -14,7 +14,10 @@ Data-Lumen is consists of command line tool which is used to load the csv data i
 
 **Execution:**
 
-1. Load data
+1. ENV **DB_DSN** should be configured. Example: "postgresql://postgres.mqqizrfgukdbygnbmebl:YOUR_PWD@aws-0-ap-south-1.pooler.supabase.com:6543/postgres".
+
+
+2. Load data
     - cd go-projects/cmd/data-lumen/cli
     - ```./cli load --file-path data-lumen/input.csv``` ---->  If tables already created(Run this as table already there)
     - ```./cli load --file-path data-lumen/input.csv --create-tables``` ----> If tables not exists already.
@@ -38,7 +41,7 @@ Data-Lumen is consists of command line tool which is used to load the csv data i
 
 
 
-2. API call
+3. API call
     - cd go-projects/cmd/data-lumen/api
     - Run ```./api```
     - Sample Requests
