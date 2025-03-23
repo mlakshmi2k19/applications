@@ -51,18 +51,25 @@ func main() {
 	slog.Info("server stopped.")
 }
 
-func getTotalRevenue(ctx *gin.Context) {
+func getQueryParams(ctx *gin.Context) (time.Time, time.Time, error) {
 	start_date, err := time.Parse("2006-01-02", ctx.Query("start_date"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid start_date format"})
-		return
+		return time.Time{}, time.Time{}, err
 
 	}
 	end_date, err := time.Parse("2006-01-02", ctx.Query("end_date"))
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid end_date format"})
-		return
+		return time.Time{}, time.Time{}, err
 
+	}
+	return start_date, end_date, nil
+}
+
+func getTotalRevenue(ctx *gin.Context) {
+	start_date, end_date, err := getQueryParams(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
 	}
 
 	var orders []m.Order
@@ -87,19 +94,11 @@ func getTotalRevenue(ctx *gin.Context) {
 }
 
 func getTotalRevenueByProduct(ctx *gin.Context) {
-	start_date, err := time.Parse("2006-01-02", ctx.Query("start_date"))
+	start_date, end_date, err := getQueryParams(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid start_date format"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
-
 	}
-	end_date, err := time.Parse("2006-01-02", ctx.Query("end_date"))
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid end_date format"})
-		return
-
-	}
-
 	var orders []m.Order
 	if err = DB.Preload("Items.Product").
 		Where("date_of_sale BETWEEN ? AND ?", start_date, end_date).
@@ -122,19 +121,11 @@ func getTotalRevenueByProduct(ctx *gin.Context) {
 }
 
 func getTotalRevenueByCategory(ctx *gin.Context) {
-	start_date, err := time.Parse("2006-01-02", ctx.Query("start_date"))
+	start_date, end_date, err := getQueryParams(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid start_date format"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
-
 	}
-	end_date, err := time.Parse("2006-01-02", ctx.Query("end_date"))
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid end_date format"})
-		return
-
-	}
-
 	var orders []m.Order
 	if err = DB.Preload("Items.Product").
 		Where("date_of_sale BETWEEN ? AND ?", start_date, end_date).
@@ -157,17 +148,10 @@ func getTotalRevenueByCategory(ctx *gin.Context) {
 }
 
 func getTotalRevenueByRegion(ctx *gin.Context) {
-	start_date, err := time.Parse("2006-01-02", ctx.Query("start_date"))
+	start_date, end_date, err := getQueryParams(ctx)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid start_date format"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
-
-	}
-	end_date, err := time.Parse("2006-01-02", ctx.Query("end_date"))
-	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid end_date format"})
-		return
-
 	}
 
 	var orders []m.Order
