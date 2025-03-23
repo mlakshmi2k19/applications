@@ -47,10 +47,18 @@ Data-Lumen is consists of command line tool which is used to load the csv data i
     - Sample Requests
         - ```curl -X GET "http://localhost:8080/revenue?start_date=2023-12-01&end_date=2024-03-01" | jq```
         - ```curl -X GET "http://localhost:8080/revenue_by_product?start_date=2023-12-01&end_date=2024-05-01" | jq```
+        - ```curl -X GET "http://localhost:8080/revenue_by_category?start_date=2023-12-01&end_date=2024-05-01" | jq```
+        - ```curl -X GET "http://localhost:8080/revenue_by_region?start_date=2023-12-01&end_date=2024-05-01" | jq```
 
 
     ![image6](images/total_revenue.png)
 
 
     ![image7](images/revenue_by_product.png)
+
+
+    ![image8](images/revenue_by_category.png)
+
+
+    ![image9](images/revenue_by_region.png)
 
