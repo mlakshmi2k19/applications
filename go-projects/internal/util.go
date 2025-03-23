@@ -27,7 +27,7 @@ func ReadFile(fileName string) ([][]string, error) {
 
 func ConnectDB() (*gorm.DB, error) {
 	dsn := os.Getenv("DB_DSN")
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{PrepareStmt: true})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{PrepareStmt: false})
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("failed to connect to DB: %s", err))
 	}
