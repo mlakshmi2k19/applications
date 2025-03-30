@@ -1,6 +1,6 @@
 from flask import Blueprint,render_template,request,flash,redirect,url_for
 
-from website import db
+from impl import db
 from .models import User
 from flask_login import login_user,login_required,logout_user,current_user 
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -50,11 +50,11 @@ def signup():
         elif password1 != password2:
             flash('Passwords don\'t match.',category='error')
         else:
-            new_user=User(email=email,firstName=firstName,password=generate_password_hash(password1,method='sha256'))
+            new_user=User(email=email,firstName=firstName,password=generate_password_hash(password1,method='pbkdf2:sha256'))
             db.session.add(new_user)
             db.session.commit()
             flash('Account created successfully!',category='success')
-            login_user(user,remember=True)
+            login_user(new_user,remember=True)
             return redirect(url_for('views.home'))
 
     return render_template("signup.html",user=current_user)
