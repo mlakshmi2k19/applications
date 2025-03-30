@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block title %}View{% endblock %}
+
+{% block content %}
+    {% for td in user.todolist.all %}
+    <form method="post" action="" class="form-group">
+        {% csrf_token %}
+        <div class="form-control">
+            <a href="/{{td.id}}">{{td.name}}</a>
+            <a href="{% url 'delete_todo' td.id %}">
+            <div class="close"><span class="aria-hidden">&times;</span></div>
+            </a>
+        </div>
+    </form>
+    {% endfor %}
+{% endblock %}
