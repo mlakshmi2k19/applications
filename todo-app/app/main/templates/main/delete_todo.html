@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Delete{% endblock %}
+
+{% block content %}
+    <p>Are you sure you want to delete "{{todo.name}}" ?</p>
+
+    <form method="POST" action="" class="form-group">
+        {% csrf_token %}
+        <a href="{% url 'view' %}" class="btn btn-info">Cancel</a>
+        <button class="btn btn-danger" type="submit">Delete</button>
+    </form>
+{% endblock %}
